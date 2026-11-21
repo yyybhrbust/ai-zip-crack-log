@@ -1,0 +1,21 @@
+# 大文件与敏感文件
+*.zip
+*.7z
+*.rar
+hash.txt
+*.hc22000
+*.cap
+*.dict
+rockyou*
+crackstation*
+*.pot
+*.rec
+config.json
+market_1.txt
+payg_1.txt
+*.log
+
+# 系统
+__pycache__/
+*.pyc
+Thumbs.db
