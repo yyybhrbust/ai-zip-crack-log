@@ -112,12 +112,42 @@ cd D:\john\john-1.9.0-jumbo-1-win64\run
 
 脚本里的路径是按作者机器写的（`D:\hashb\zip\...`、`/root/...`），换机器需要改常量。
 
-## 为什么没有 hash.txt 和 AI.zip
+## 数据下载与校验
 
-- **hash.txt 287,248,884 字节**，超过 GitHub 单文件 100 MB 硬上限，push 会被直接拒绝；Git LFS 免费额度 1 GB 也会被这一个文件吃穿。
-- **AI.zip 143,624,640 字节**，超限，而且它是受版权保护的电子书——公开分发不合适。
-- 字典（rockyou 139,921,497 字节、CrackStation 等）同样超限，且都有公开下载源。
-- 这里只保留**元数据**：上面那张参数表 + 开头 120 字符的样本（`$zip2$*0*3*0*d5104ed18ea266a70c36285b7e76ea09*7b75*88f88ce*...`）。
+完整的 `hash.txt` 放在 Release 资产里（Git 仓库单文件 100 MB 上限，放不下 287 MB 的文件）：
+
+**[v1.0-hash](https://github.com/yyybhrbust/ai-zip-crack-log/releases/tag/v1.0-hash)** → `hash.txt`（287,248,884 字节）
+
+| 文件 | 大小（字节） | SHA-256 |
+|---|---|---|
+| `hash.txt`（Release 资产） | 287,248,884 | `8408e56a83d7e1be4583ff5a80d135af54cf2a0fbf29831da9631490adca4f20` |
+| `AI.zip`（未上传，见下） | 143,624,640 | `ce24c6cd6f9f327640dba27c2d0a89c5ed51d0ba85ecab8cacc7e6c4a52480c8` |
+
+GitHub 在上传后回传的 `digest` 与本地一致（`sha256:8408e56a…4f20`），说明资产与本地文件逐字节相同。
+
+## 为什么没有上传 AI.zip
+
+`AI.zip` 143,624,640 字节，里面是《人工智能导论（第 5 版）(王万良)》的 PDF。
+**公开分发受版权保护的电子书属于再分发，本仓库不做**，因此只提供足以唯一识别该文件的指纹：
+
+```
+条目        人工智能导论（第5版） (王万良).pdf
+CRC-32      0a2e16c8
+压缩后      143,624,426 字节（method 99 = WinZip AES，flag 0x0801）
+解压后      158,193,187 字节
+时间戳      2025-04-07 10:07:12
+extra       0199070001004145030800（0x9901 AE-1 / AES-256 / deflate）
+```
+
+如果你手上有同一个压缩包，三项一比对就能确认它和本仓库的结论针对的是同一个文件：
+
+```bash
+sha256sum AI.zip                 # ce24c6cd6f9f327640dba27c2d0a89c5ed51d0ba85ecab8cacc7e6c4a52480c8
+unzip -v AI.zip                  # CRC-32 = 0a2e16c8，解压后 158193187
+zip2john AI.zip | head -c 200    # 与 release 里 hash.txt 的开头一致
+```
+
+字典（rockyou 139,921,497 字节、CrackStation 等）同样超限，且都有公开下载源，不再重复托管。
 
 ## 合规与隐私
 
